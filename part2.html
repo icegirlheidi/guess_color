@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+
+</head>
+
+<body onload="do_game();">
+	
+	<script type="text/javascript">
+		var colors = ["navy","Olive","YellowGreen","SkyBlue","Gold","Aquamarine","Wheat","Tomato","PapayaWhip","MintCream","LightCyan","DarkGreen"];
+		var target_color 
+		var finished = false;
+		var guess_input_text;
+		var guess_input;
+		var guesses = 0;
+		function do_game(){
+			var random_number_integer = Math.floor(Math.random() * 12);//generate a random integer from 0 to 11
+			target_color = colors[random_number_integer];//get one target color
+			alert("Target color is " + target_color);//show target color, for test purpose
+			while(!finished){
+				guess_input_text = prompt("I am thinking of one of these colors.\n\n" + (colors.sort()).join() + "\n\nWhat color am I thinking of?");
+				guess_input = String(guess_input_text);
+				guesses += 1;
+				finished = check_guess();
+			}
+
+			console.log(guesses);
+		}
+		function check_guess(){
+			var joined_colors = colors.join(); //convert variable colors from array to string;
+			var index = joined_colors.indexOf(guess_input); //get the index of guess_input in string joined_colors
+			if(index <= 0){
+				alert("Sorry, I don't recognize your color.\n\nPlease try again.");
+				return false;
+			} // if joined_colors doesn't include guess_input, then the index is -1. if user doesn't type anything, then the index is 0.
+			if(guess_input > target_color){
+				alert("Sorry, your guess is not correct.\n\nHint: your color is alphabetically higher than mine.");
+				return false;
+			}
+			if(guess_input < target_color){
+				alert("Sorry, your guess is not correct.\n\nHint: your color is alphabetically lower than mine.");
+				return false;
+			}
+			var myBody=document.getElementsByTagName("body")[0];
+			myBody.style.background=target_color;
+			alert("Congratulations! You have guessed the color!\n\nIt took you " + guesses + " guesses to finish the game!\n\nYou can see the color in the background.");
+			return true;
+			
+		}
+	</script>
+</body>
+</html>
